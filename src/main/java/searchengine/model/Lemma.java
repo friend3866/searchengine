@@ -8,11 +8,13 @@ public class Lemma {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Id;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Column(name = "site_id")
-    private int siteId;
+    private Site site;
 
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String lemma;
 
+    @Column(nullable = false)
     private int frequency;
 }

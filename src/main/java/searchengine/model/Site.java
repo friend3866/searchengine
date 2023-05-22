@@ -12,16 +12,16 @@ public class Site {
     @Column(columnDefinition = "ENUM('INDEXING', 'INDEXED', 'FAILED')")
     private Status status;
 
-    @Column(name = "status_time")
+    @Column(name = "status_time", columnDefinition = "NOT NULL")
     private Date statusTime;
 
-    @Column(name = "last_error", columnDefinition = "TEXT")
+    @Column(name = "last_error", columnDefinition = "TEXT NOT NULL")
     private String lastError;
 
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String url;
 
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String name;
 
 
