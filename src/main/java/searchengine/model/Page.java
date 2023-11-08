@@ -1,24 +1,42 @@
 package searchengine.model;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-@Entity
-@Table(indexes = @Index(columnList = "site_id, path", unique = true))
+import javax.persistence.*;
+import javax.persistence.Index;
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity(name = "page")
+@Table(indexes = {
+        @Index(name = "path_index",
+                columnList = "path",
+                unique = true)
+})
 public class Page {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @Column(name = "site_id")
-    private Site site;
+    @ManyToOne
+    @JoinColumn(name = "site_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Site siteId;
 
-    @Column(columnDefinition = "TEXT NOT NULL")
+    @Column(columnDefinition = "VARCHAR(255)", nullable = false, unique = true)
     private String path;
 
     @Column(nullable = false)
     private int code;
 
-    @Column(columnDefinition = "MEDIUMTEXT NOT NULL")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String content;
+
+    @OneToMany(mappedBy = "pageId")
+    Set<searchengine.model.Index> indexes;
 }

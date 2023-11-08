@@ -1,23 +1,30 @@
 package searchengine.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
-@Entity
-@Table(name = "index",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"page_id", "lemma_id"}))
+@Getter
+@Setter
+@Entity(name = "`index`")
 public class Index {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int Id;
+    private int id;
 
     @ManyToOne
-    @Column(name = "page_id")
-    private Page page;
+    @JoinColumn(name = "page_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Page pageId;
 
     @ManyToOne
-    @Column(name = "lemma_id")
-    private Lemma lemma;
+    @JoinColumn(name = "lemma_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Lemma lemmaId;
 
-    @Column(nullable = false)
+    @Column(name = "`rank`", nullable = false)
     private float rank;
 }
